@@ -31,13 +31,16 @@ li{
     max-width: 100%; /* Limit container width */
 }
 .table {
-    width: auto; /* Allow table to adjust width as needed */
     white-space: nowrap; /* Prevent line breaks in cells */
 }
-td.table-item{
+td.table-item {
+    width: 250px;
     background-image: radial-gradient(circle at 50% 50%, #9dc896, #30ab97);
     border: 5px solid #fff; /* Add border for clarity */
     background-color: #fff; /* Add background color for contrast */
+    white-space: nowrap; /* Prevent text from wrapping */
+    overflow: hidden; /* Hide overflowing text */
+    text-overflow: ellipsis; /* Display ellipsis (...) for overflowed text */
 }
 img.menu-item{
     max-width: 100px;
