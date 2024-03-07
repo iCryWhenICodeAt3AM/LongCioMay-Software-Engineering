@@ -145,7 +145,7 @@ document.getElementById('orderModal').addEventListener('show.bs.modal', function
                 <label for="quantity" class="form-label">Quantity</label>
                 <div class="input-group">
                     <button class="btn btn-outline-secondary" type="button" id="decrementBtn">-</button>
-                    <input type="number" class="form-control" id="quantity" min="0" value="0">
+                    <input type="number" class="form-control" id="quantity" min="1" value="1">
                     <button class="btn btn-outline-secondary" type="button" id="incrementBtn">+</button>
                 </div>
             </div>
@@ -189,16 +189,16 @@ function placeOrder() {
     const itemName = document.querySelector('.modal-title').textContent.split('Order ')[1];
     const itemPrice = parseFloat(document.querySelector('.modal-body p').textContent.split('Php ')[1]);
 
-    const totalPrice = (quantity * itemPrice).toFixed(2); // Calculate total price
+    const totalPrice = (quantity * itemPrice).toFixed(0); // Calculate total price
     // Generate Row Id
     const rowId = 'row_' + Math.random().toString(36).substr(2, 9);
 
     // Create HTML content for the ordered item
     const orderHTML = `
-        <div class="row mt-1 mb-1" id="${rowId}">
-            <div class="col-2 list-item p-0 mt-2">${quantity}</div>
-            <div class="col-6 list-item p-0 mt-2">${itemName}</div>
-            <div class="col-2 list-item p-0 mt-2">${totalPrice}</div>
+        <div class="row mt-1 mb-1 row-items" id="${rowId}">
+            <div class="col-2 list-item p-0 mt-2 qty">${quantity}</div>
+            <div class="col-6 list-item p-0 mt-2 item">${itemName}</div>
+            <div class="col-2 list-item p-0 mt-2 total">${totalPrice}</div>
             <div class="col-2 list-item p-0"><button class="btn-x btn btn-sm btn-outline-danger" onclick="openConfirmationModal('${itemName}', ${totalPrice}, ${quantity}, '${rowId}')">X</button></div>
         </div>
     `;
@@ -246,7 +246,7 @@ function updateOrderTotal(totalPrice) {
         // Add the new total price to the current total
         const newTotal = currentTotal + parseFloat(totalPrice);
         // Update the order total in the DOM
-        orderTotalElement.textContent = newTotal.toFixed(2);
+        orderTotalElement.textContent = newTotal.toFixed(0);
     }
 }
 
@@ -263,3 +263,57 @@ document.querySelector('#confirmationModal .btn-close').addEventListener('click'
     modal.classList.remove('show');
     modal.style.display = 'none';
 });
+// Submit to database verification
+function submit() {
+    const details = [];
+    const currentDate = new Date();
+    const rows = document.querySelectorAll('.row-items');
+    const customerid = Math.floor(Math.random() * 200) + 1;
+    const tableid = Math.floor(Math.random() * 12) + 1;
+    const date = firebase.firestore.Timestamp.fromDate(currentDate);
+    const status = "pending";
+    const total = document.getElementById("order-total").innerHTML;
+    
+    rows.forEach(row => {
+        const qtyHTML = row.querySelector('.qty').innerHTML;
+        const itemHTML = row.querySelector('.item').innerHTML;
+        const totalHTML = row.querySelector('.total').innerHTML;
+        // Add collected HTML to the array
+        details.push({ qtyHTML, itemHTML, totalHTML });
+    });
+
+    // Save order details to Firestore
+    const orderRef = db.collection("orders").doc("BawoijACJlbVRi8sHQqI").collection("queue").doc();
+    const orderData = {
+        customerid,
+        tableid,
+        date,
+        status,
+        total
+    };
+
+    // Add details collection to the order document
+    orderRef.set(orderData).then(() => {
+        const batch = db.batch();
+        const detailsCollection = orderRef.collection("details");
+        details.forEach((detail, index) => {
+            const { qtyHTML, itemHTML, totalHTML } = detail;
+            const detailData = {
+                qty: qtyHTML,
+                dish: itemHTML,
+                total: totalHTML
+            };
+            batch.set(detailsCollection.doc(`${index+1}`), detailData);
+        });
+        return batch.commit();
+    }).then(() => {
+        console.log("Order and details saved successfully!");
+        alert("Order and details saved successfully!");
+        location.reload();
+    }).catch((error) => {
+        console.error("Error saving order and details: ", error);
+        alert("Error saving order. Please call on a staff.");
+    });
+}
+
+
