@@ -53,6 +53,7 @@
     </div>
     <!-- Top Nav Bar - END -->
     <!-- Body - START -->
+        
     <!-- Modal for Quantity -->
     <div class="modal fade" id="orderModal" tabindex="-1" aria-labelledby="orderModalLabel" aria-hidden="true">
         <div class="modal-dialog">
@@ -90,7 +91,6 @@
           </div>
         </div>
       </div>
-
     <!-- Side Navigation -->
     <div class="container-fluid">
         <div class="row">
@@ -98,18 +98,121 @@
             <nav class="side-navigation col-2 d-flex flex-column">
                 <!-- New Item For Side Nav - START -->
                 <ul class="list-unstyled flex-grow-1">
-                    <li class="p-3 d-flex m-3">
+                    <li class="p-3 d-flex m-3 dashboard">
                         <img src="images/food-icon.svg" alt="Food Icon" width="25%" height="25%">
                         <div class="text-center flex-grow-1 pt-2">
-                            <h6>Menu</h6>
+                            <h6>Dashboard</h6>
+                        </div>
+                    </li>
+                    <li class="p-3 d-flex m-3 sales">
+                        <img src="images/food-icon.svg" alt="Food Icon" width="25%" height="25%">
+                        <div class="text-center flex-grow-1 pt-2">
+                            <h6>Sales</h6>
+                        </div>
+                    </li>
+                    <li class="p-3 d-flex m-3 take-orders">
+                        <img src="images/food-icon.svg" alt="Food Icon" width="25%" height="25%">
+                        <div class="text-center flex-grow-1 pt-2">
+                            <h6>Take Orders</h6>
                         </div>
                     </li>
                 </ul>
                 <!-- New Item For Side Nav - END -->
             </nav>
             <!-- Side Nav - END -->
+            <!-- Dashboard - START -->
+            <div class="col-7 dashboard-content">
+                <!-- Buttons Navigation - START -->
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <button class="dashboard-button btn btn-lg btn-success verification m-5" onclick="verification()">
+                            Verification
+                        </button>
+                        <button class="dashboard-button btn btn-lg btn-outline-dark pending m-5" onclick="pending()">
+                            Pending
+                        </button>
+                        <button class="dashboard-button btn btn-lg btn-outline-dark completed m-5" onclick="completed()">
+                            Completed
+                        </button>
+                    </div>
+                </div>
+                <!-- Buttons Navigation - END -->
+                <!-- Table - START -->
+                <div class="row">
+                    <div class="col-12 text-center">
+                        <table class="table items">
+                            <thead>
+                                <!-- Format if Verification -->
+                                <tr>
+                                    <th>Table ID</th>
+                                    <th>Customer ID</th>
+                                    <th>Total Amount</th>
+                                    <th>Status</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="list">
+                                <!-- List Generation Here -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+                <!-- Table - END -->
+            </div>
+            <!-- Order List - START -->
+            <div class="detailslist-container orders col-3 text-center">
+                <div class="details-list">
+                    <div class="row">
+                        <!-- Customer ID -->
+                        <div class="col-12">
+                            <div class="customer-id m-2 pt-3 p-2">
+                                <h6><b>Customer ID - 0000000013</b></h6>
+                            </div>
+                            <!-- List -->
+                        </div>
+                        <!-- Order Items -->
+                        <div class="details-items col-10 offset-1 p-3">
+                            <!-- Headers -->
+                            <div class="row mb-2">
+                                <div class="col-2 list-item p-0"><b>Qty</b></div>
+                                <div class="col-6 list-item p-0"><b>Item</b></div>
+                                <div class="col-2 list-item p-0"><b>Total</b></div>
+                                <div class="col-2 list-item p-0"><b>Act</b></div>
+                            </div>
+                            <!-- Contents -->
+                            
+                        </div>
+                        <div class="col-12 pt-3">
+                            <div class="row">
+                                <div class="col-12">
+                                    <h6><b>Order Total</b></h6>
+                                </div>
+                                <div class="col-12">
+                                    <h6 id="order-total">0</h6>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="buttons-list col-12 mt-1">
+                            <div class="row">
+                                <div class="col-6">
+                                    <button class="btn btn-c btn-outline-success verify">
+                                        <img src="images/check.svg" alt="Check" height="100%" width="100%">
+                                    </button>
+                                </div>
+                                <div class="col-6">
+                                    <button class="btn btn-c btn-outline-danger cancel">
+                                        X
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!-- Order List - END -->
+            <!-- Dashboard - END -->
             <!-- Content - START -->
-            <div class="col-7">
+            <div class="order col-7 d-none">
                 <div class="row">
                     <div class="col-12 table-container text-center d-flex justify-content-center">
                         <!-- Pills -->
@@ -197,6 +300,7 @@
     <script src="https://www.gstatic.com/firebasejs/5.0.3/firebase-firestore.js"></script>
     <script src="js/firestore.js"></script>
     <script src="js/ordering.js"></script>
+    <script src="js/cashier.js"></script>
     <script src="js/bootstrap.min.js"></script>
 </body>
 </html>
