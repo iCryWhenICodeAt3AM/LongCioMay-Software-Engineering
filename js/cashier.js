@@ -369,3 +369,4 @@ function cancel(docId, label) {
         console.error("Error deleting documents in 'details' collection: ", error);
     });
 }
+

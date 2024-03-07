@@ -248,7 +248,7 @@ function updateOrderTotal(totalPrice) {
         // Add the new total price to the current total
         const newTotal = currentTotal + parseFloat(totalPrice);
         // Update the order total in the DOM
-        orderTotalElement.innerHTML += newTotal.toFixed(0);
+        orderTotalElement.innerHTML = newTotal.toFixed(0);
     }
 }
 
