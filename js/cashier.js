@@ -1,7 +1,7 @@
 // Add event listener to the "Dashboard" item
 document.querySelector('.dashboard').addEventListener('click', function() {
     // Show the content when the item is clicked
-    document.querySelector('.orders').classList.add('d-none');
+    document.querySelector('.order').classList.add('d-none');
     document.querySelector('.orderlist-container').classList.add('d-none');
     document.querySelector('.dashboard-content').classList.remove('d-none');
     document.querySelector('.detailslist-container').classList.remove('d-none');
@@ -10,7 +10,7 @@ document.querySelector('.dashboard').addEventListener('click', function() {
 // Add event listener to the "Sales" item
 document.querySelector('.sales').addEventListener('click', function() {
     // Show the content when the item is clicked
-    document.querySelector('.orders').classList.add('d-none');
+    document.querySelector('.order').classList.add('d-none');
     document.querySelector('.orderlist-container').classList.add('d-none');
     document.querySelector('.dashboard-content').classList.add('d-none');
     document.querySelector('.detailslist-container').classList.add('d-none');
@@ -19,7 +19,7 @@ document.querySelector('.sales').addEventListener('click', function() {
 // Add event listener to the "Take Orders" item
 document.querySelector('.take-orders').addEventListener('click', function() {
     // Show the content when the item is clicked
-    document.querySelector('.orders').classList.remove('d-none');
+    document.querySelector('.order').classList.remove('d-none');
     document.querySelector('.orderlist-container').classList.remove('d-none');
     document.querySelector('.dashboard-content').classList.add('d-none');
     document.querySelector('.detailslist-container').classList.add('d-none');
@@ -370,54 +370,3 @@ function cancel(docId, label) {
     });
 }
 
-// Modal Order Button
-function placeOrder() {
-    const quantity = parseInt(document.getElementById('quantity').value);
-    const itemName = document.querySelector('.modal-title').textContent.split('Order ')[1];
-    const itemPrice = parseFloat(document.querySelector('.modal-body p').textContent.split('Php ')[1]);
-
-    const totalPrice = (quantity * itemPrice).toFixed(0); // Calculate total price
-    // Generate Row Id
-    const rowId = 'row_' + Math.random().toString(36).substr(2, 9);
-
-    // Create HTML content for the ordered item
-    const orderHTML = `
-        <div class="row mt-1 mb-1 row-items" id="${rowId}">
-            <div class="col-2 list-item p-0 mt-2 qty">${quantity}</div>
-            <div class="col-6 list-item p-0 mt-2 item">${itemName}</div>
-            <div class="col-2 list-item p-0 mt-2 total">${totalPrice}</div>
-            <div class="col-2 list-item p-0"><button class="btn-x btn btn-sm btn-outline-danger" onclick="openConfirmationModal('${itemName}', ${totalPrice}, ${quantity}, '${rowId}')">X</button></div>
-        </div>
-    `;
-
-    // Append the HTML content to the specified element
-    document.querySelector('.order-items').innerHTML += orderHTML;
-
-    // Update the order total
-    updateOrderTotal(totalPrice);
-
-    // Close the modal
-    // Hide the modal
-    const orderModal = document.getElementById('orderModal');
-    const modal = bootstrap.Modal.getInstance(orderModal);
-    modal.hide();
-}
-
-
-// Function to update the order total
-function updateOrderTotal(totalPrice) {
-    // Get the current order total
-    console.log(totalPrice);
-    const orderTotalElement = document.getElementById('order-total');
-    console.log(orderTotalElement);
-    if (orderTotalElement) {
-        let currentTotal = parseFloat(orderTotalElement.textContent);
-        if (isNaN(currentTotal)) {
-            currentTotal = 0;
-        }
-        // Add the new total price to the current total
-        const newTotal = currentTotal + parseFloat(totalPrice);
-        // Update the order total in the DOM
-        orderTotalElement.innerHTML = newTotal.toFixed(0);
-    }
-}
