@@ -239,6 +239,7 @@ function updateOrderTotal(totalPrice) {
     // Get the current order total
     console.log(totalPrice);
     const orderTotalElement = document.getElementById('order-total');
+    console.log(orderTotalElement);
     if (orderTotalElement) {
         let currentTotal = parseFloat(orderTotalElement.textContent);
         if (isNaN(currentTotal)) {
@@ -247,7 +248,7 @@ function updateOrderTotal(totalPrice) {
         // Add the new total price to the current total
         const newTotal = currentTotal + parseFloat(totalPrice);
         // Update the order total in the DOM
-        orderTotalElement.textContent = newTotal.toFixed(0);
+        orderTotalElement.innerHTML = newTotal.toFixed(0);
     }
 }
 
