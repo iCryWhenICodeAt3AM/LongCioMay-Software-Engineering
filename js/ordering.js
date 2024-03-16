@@ -238,7 +238,7 @@ function openConfirmationModal(itemName, totalPrice, quantity, rowId) {
 function updateOrderTotal(totalPrice) {
     // Get the current order total
     console.log(totalPrice);
-    const orderTotalElement = document.getElementById('order-total');
+    const orderTotalElement = document.getElementById('order-total-list');
     console.log(orderTotalElement);
     if (orderTotalElement) {
         let currentTotal = parseFloat(orderTotalElement.innerHTML);
@@ -274,7 +274,7 @@ function submit() {
     const tableid = Math.floor(Math.random() * 12) + 1;
     const date = firebase.firestore.Timestamp.fromDate(currentDate);
     const status = "pending";
-    const total = document.getElementById("order-total").innerHTML;
+    const total = document.getElementById("order-total-list").innerHTML;
     
     rows.forEach(row => {
         const qtyHTML = row.querySelector('.qty').innerHTML;

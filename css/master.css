@@ -65,22 +65,11 @@ img.menu-item{
     border-color: transparent; /* Set border color to transparent */
 }
 /* Order List */
-div.orderlist-container {
+div.orderlist-container, div.salesdetails-container, div.detailslist-container {
     background-image: linear-gradient(180deg, #2cc4ab, #1d9b87, #1a8092);
     height: 90vh; /* Set height to 75% of viewport height */
 }
-/* Details List */
-div.detailslist-container {
-    background-image: linear-gradient(180deg, #2cc4ab, #1d9b87, #1a8092);
-    height: 90vh; /* Set height to 75% of viewport height */
-}
-div.order-list{
-    margin: 40px 20px;
-    background-color: #fff;
-    border-radius: 20px;
-    height: 85%;
-}
-div.details-list{
+div.order-list, div.salesdetails-list, div.details-list{
     margin: 40px 20px;
     background-color: #fff;
     border-radius: 20px;
@@ -93,11 +82,7 @@ div.customer-id {
 div.list-item{
     font-size: 10px;
 }
-div.order-items{
-    height: 300px;
-    overflow-y: auto;
-}
-div.details-items{
+div.order-items, div.salesdetails-items, div.details-items{
     height: 300px;
     overflow-y: auto;
 }
