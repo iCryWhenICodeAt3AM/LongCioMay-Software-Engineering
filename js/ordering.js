@@ -238,7 +238,7 @@ function openConfirmationModal(itemName, totalPrice, quantity, rowId) {
 function updateOrderTotal(totalPrice) {
     // Get the current order total
     console.log(totalPrice);
-    const orderTotalElement = document.getElementById('order-total');
+    const orderTotalElement = document.getElementById('order-total-list');
     console.log(orderTotalElement);
     if (orderTotalElement) {
         let currentTotal = parseFloat(orderTotalElement.innerHTML);

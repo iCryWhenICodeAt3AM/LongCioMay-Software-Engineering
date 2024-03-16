@@ -1,20 +1,22 @@
 // Add event listener to the "Dashboard" item
 document.querySelector('.dashboard').addEventListener('click', function() {
     // Show the content when the item is clicked
-    document.querySelector('.order').classList.add('d-none');
-    document.querySelector('.orderlist-container').classList.add('d-none');
     document.querySelector('.dashboard-content').classList.remove('d-none');
     document.querySelector('.detailslist-container').classList.remove('d-none');
-
+    document.querySelector('.order').classList.add('d-none');
+    document.querySelector('.orderlist-container').classList.add('d-none');
+    document.querySelector('.sales-container').classList.add('d-none');
+    document.querySelector('.salesdetails-container').classList.add('d-none');
 });
 // Add event listener to the "Sales" item
 document.querySelector('.sales').addEventListener('click', function() {
     // Show the content when the item is clicked
+    document.querySelector('.sales-container').classList.remove('d-none');
+    document.querySelector('.salesdetails-container').classList.remove('d-none');
     document.querySelector('.order').classList.add('d-none');
     document.querySelector('.orderlist-container').classList.add('d-none');
     document.querySelector('.dashboard-content').classList.add('d-none');
     document.querySelector('.detailslist-container').classList.add('d-none');
-
 });
 // Add event listener to the "Take Orders" item
 document.querySelector('.take-orders').addEventListener('click', function() {
@@ -23,6 +25,8 @@ document.querySelector('.take-orders').addEventListener('click', function() {
     document.querySelector('.orderlist-container').classList.remove('d-none');
     document.querySelector('.dashboard-content').classList.add('d-none');
     document.querySelector('.detailslist-container').classList.add('d-none');
+    document.querySelector('.sales-container').classList.add('d-none');
+    document.querySelector('.salesdetails-container').classList.add('d-none');
 });
 
 let documentId = "";
@@ -160,7 +164,7 @@ function pending(){
                     <td>${customerid}</td>
                     <td>${total}</td>
                     <td>${status}</td>
-                    <td><button class="btn btn-sm btn-success list-button" id="${itemDoc.id}" onclick="getDetails('${itemDoc.id}')">Confirm</button></td>
+                    <td><button class="btn btn-sm btn-success list-button" id="${itemDoc.id}" onclick="getDetails('${itemDoc.id}', 'dashboard')">Confirm</button></td>
                 </tr>
             `;
         });
@@ -182,27 +186,50 @@ function completed(){
     document.getElementById('list').innerHTML = "";
 }
 
-function getDetails(docId){
+function getDetails(docId, operation){
     let labelId = "";
+    let sales = false;
     const verifyButton = document.querySelector('.verify');
     const cancelButton = document.querySelector('.cancel');
-    if(!verifyButton){
-        if (cancelButton) {
-            cancelButton.setAttribute('onclick', `cancel('${docId}', 'pending')`);
-            labelId = "d716BHinTx1rHwR96KOV";
-        }
+    const salesIdentifier = document.querySelector('.sales');
+    if (operation == 'sales'){
+        sales = true;
+        labelId = docId;
+        document.querySelector(".salesdetails-items").innerHTML = `
+            <div class="row mb-2">
+                <div class="col-2 list-item p-0"><b>Qty</b></div>
+                <div class="col-6 list-item p-0"><b>Item</b></div>
+                <div class="col-2 list-item p-0"><b>Total</b></div>
+                <div class="col-2 list-item p-0"><b>Act</b></div>
+            </div>
+        `;
     } else {
-        if (!cancelButton) {
-            verifyButton.setAttribute('onclick', `verify('${docId}', 'completed')`);
-            labelId = "QiQgHzK5ejJONcqySnGg";
-        }else{
-            verifyButton.setAttribute('onclick', `verify('${docId}', 'verification')`);
-            cancelButton.setAttribute('onclick', `cancel('${docId}', 'verification')`);
-            labelId = "BawoijACJlbVRi8sHQqI";
+        document.querySelector(".details-items").innerHTML = `
+            <div class="row mb-2">
+                <div class="col-2 list-item p-0"><b>Qty</b></div>
+                <div class="col-6 list-item p-0"><b>Item</b></div>
+                <div class="col-2 list-item p-0"><b>Total</b></div>
+                <div class="col-2 list-item p-0"><b>Act</b></div>
+            </div>
+        `;
+        if(!verifyButton){
+            if (cancelButton) {
+                cancelButton.setAttribute('onclick', `cancel('${docId}', 'pending')`);
+                labelId = "d716BHinTx1rHwR96KOV";
+            }
+        } else {
+            if (!cancelButton) {
+                verifyButton.setAttribute('onclick', `verify('${docId}', 'completed')`);
+                labelId = "QiQgHzK5ejJONcqySnGg";
+            }else{
+                verifyButton.setAttribute('onclick', `verify('${docId}', 'verification')`);
+                cancelButton.setAttribute('onclick', `cancel('${docId}', 'verification')`);
+                labelId = "BawoijACJlbVRi8sHQqI";
+            }
         }
     }
     
-    
+    console.log(sales);
     total = 0;
     // If the document was only clicked once
     if(documentId != docId){
@@ -216,24 +243,14 @@ function getDetails(docId){
         document.getElementById(`${docId}`).classList.remove('btn-success');
         document.getElementById(`${docId}`).classList.add('btn-danger');
         document.getElementById(`${docId}`).innerHTML = "X";
-        document.querySelector(".details-items").innerHTML = `
-            <div class="row mb-2">
-                <div class="col-2 list-item p-0"><b>Qty</b></div>
-                <div class="col-6 list-item p-0"><b>Item</b></div>
-                <div class="col-2 list-item p-0"><b>Total</b></div>
-                <div class="col-2 list-item p-0"><b>Act</b></div>
-            </div>
-        `;
-
-        // Get details from the same collection for the current itemDoc
-        db.collection("orders").doc(labelId).collection("queue").doc(docId).collection("details").get().then((detailSnapshot) => {
-            detailSnapshot.forEach((detailDoc) => {
-                const detailData = detailDoc.data();
-                console.log(detailData.dish);
-                // Append details to the itemHTML
-                const rowId = 'row_' + Math.random().toString(36).substr(2, 9);
-                console.log(detailDoc.id);
-                document.querySelector(".details-items").innerHTML += `
+        if(sales){
+            console.log("Sales = True");
+            db.collection("sales").doc(labelId).collection("details").get().then((detailSnapshot) => {
+                detailSnapshot.forEach((detailDoc) => {
+                    const detailData = detailDoc.data();
+                    console.log(detailData.dish);
+                    const rowId = 'row_' + Math.random().toString(36).substr(2, 9);
+                    document.querySelector(".salesdetails-items").innerHTML += `
                     <div class="row mt-1 mb-1" id="${rowId}">
                         <div class="col-2 list-item p-0 mt-2"><b>${detailData.qty}</b></div>
                         <div class="col-6 list-item p-0 mt-2"><b>${detailData.dish}</b></div>
@@ -243,11 +260,36 @@ function getDetails(docId){
                 `;
                 total += parseFloat(detailData.total);
                 console.log(total)
-                document.getElementById("order-total").innerHTML = total.toFixed(0);
+                document.querySelector(".order-total-sales").innerHTML = total.toFixed(0);
+                });
+            }).catch((error) => {
+                console.log("Error getting details:", error);
             });
-        }).catch((error) => {
-            console.log("Error getting details:", error);
-        });
+        } else {
+            // Get details from the same collection for the current itemDoc
+            db.collection("orders").doc(labelId).collection("queue").doc(docId).collection("details").get().then((detailSnapshot) => {
+                detailSnapshot.forEach((detailDoc) => {
+                    const detailData = detailDoc.data();
+                    console.log(detailData.dish);
+                    // Append details to the itemHTML
+                    const rowId = 'row_' + Math.random().toString(36).substr(2, 9);
+                    console.log(detailDoc.id);
+                    document.querySelector(".details-items").innerHTML += `
+                        <div class="row mt-1 mb-1" id="${rowId}">
+                            <div class="col-2 list-item p-0 mt-2"><b>${detailData.qty}</b></div>
+                            <div class="col-6 list-item p-0 mt-2"><b>${detailData.dish}</b></div>
+                            <div class="col-2 list-item p-0 mt-2"><b>${detailData.total}</b></div>
+                            <div class="col-2 list-item p-0"><div class="col-2 list-item p-0"><button class="btn-x btn btn-sm btn-outline-danger" onclick="openConfirmationModal('${detailData.dish}', ${detailData.total}, ${detailData.qty}, '${rowId}')">X</button></div></div>
+                        </div>
+                    `;
+                    total += parseFloat(detailData.total);
+                    console.log(total)
+                    document.getElementById("order-total").innerHTML = total.toFixed(0);
+                });
+            }).catch((error) => {
+                console.log("Error getting details:", error);
+            });
+        }
         documentId = docId;
     } else {
         // Reset all list buttons
