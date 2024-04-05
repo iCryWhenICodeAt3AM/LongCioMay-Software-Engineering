@@ -112,7 +112,7 @@ function verification(){
     document.querySelector(".verification").classList.add("disabled");
     document.querySelector(".verification").classList.add("btn-success");
     document.getElementById('list').innerHTML = "";
-    db.collection("orders").doc("BawoijACJlbVRi8sHQqI").collection("queue").get().then((itemSnapshot) => {
+    db.collection("orders").doc("BawoijACJlbVRi8sHQqI").collection("queue").orderBy("date", "desc").get().then((itemSnapshot) => {
         itemSnapshot.forEach((itemDoc) => {
             const itemData = itemDoc.data();
             const tableid = itemData.tableid;
@@ -148,7 +148,7 @@ function pending(){
     document.querySelector(".pending").classList.add("disabled");
     document.querySelector(".pending").classList.add("btn-success");
     document.getElementById('list').innerHTML = "";
-    db.collection("orders").doc("d716BHinTx1rHwR96KOV").collection("queue").get().then((itemSnapshot) => {
+    db.collection("orders").doc("d716BHinTx1rHwR96KOV").collection("queue").orderBy("date", "desc").get().then((itemSnapshot) => {
         itemSnapshot.forEach((itemDoc) => {
             const itemData = itemDoc.data();
             const tableid = itemData.tableid;
@@ -411,4 +411,5 @@ function cancel(docId, label) {
         console.error("Error deleting documents in 'details' collection: ", error);
     });
 }
+
 

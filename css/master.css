@@ -30,8 +30,14 @@ li{
     overflow-x: auto; /* Enable horizontal scrollbar */
     max-width: 100%; /* Limit container width */
 }
+.table-responsive{
+    max-height: 450px;
+}
 .table {
     white-space: nowrap; /* Prevent line breaks in cells */
+}
+.side-navigation li {
+    cursor: pointer;
 }
 td.table-item {
     width: 250px;
