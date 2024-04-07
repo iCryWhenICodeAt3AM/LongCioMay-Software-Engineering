@@ -190,9 +190,6 @@ function getChecklist(itemId, customerID, rowId){
     customerIdContainer.innerHTML = changeId;
 };
 
-function updateRow(rowId, status){
-    
-}
 
 
 populateTable();
