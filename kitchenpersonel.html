@@ -112,13 +112,15 @@
             <div class="col-7 dashboard-content">
                 <!-- Table - START -->
                 <div class="row">
-                    <div class="col-12 text-center">
+                    <div class="col-12 text-center table-responsive" style="max-height: 600px;">
                         <table class="table items">
                             <thead>
                                 <!-- Format if Verification -->
                                 <tr>
                                     <th>Customer ID</th>
                                     <th>Table ID</th>
+                                    <th>Completed</th>
+                                    <th>Pending</th>
                                     <th>Status</th>
                                     <th>Actions</th>
                                 </tr>
@@ -132,132 +134,26 @@
                 <!-- Table - END -->
             </div>
             <!-- Order List - START -->
-            <div class="detailslist-container orders col-3 text-center">
-                <div class="details-list">
-                    <div class="row">
-                        <!-- Customer ID -->
-                        <div class="col-12">
-                            <div class="customer-id m-2 pt-3 p-2">
-                                <h6 id="customer-id-detail"><b>Customer ID</b></h6>
-                            </div>
-                            <!-- List -->
-                        </div>
-                        <!-- Order Items -->
-                        <div class="details-items col-10 offset-1 p-3">
-                            <!-- Headers -->
-                            <div class="row mb-2">
-                                <div class="col-2 list-item p-0"><b>Qty</b></div>
-                                <div class="col-6 list-item p-0"><b>Item</b></div>
-                                <div class="col-2 list-item p-0"><b>Total</b></div>
-                                <div class="col-2 list-item p-0"><b>Act</b></div>
-                            </div>
-                            <!-- Contents -->
-                            
-                        </div>
-                        <div class="col-12 pt-3">
-                            <div class="row">
-                                <div class="col-12">
-                                    <h6><b>Order Total</b></h6>
-                                </div>
-                                <div class="col-12">
-                                    <h6 id="order-total">0</h6>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="buttons-list col-12 mt-1">
-                            <div class="row">
-                                <div class="col-6">
-                                    <button class="btn btn-c btn-outline-success verify">
-                                        <img src="images/check.svg" alt="Check" height="100%" width="100%">
-                                    </button>
-                                </div>
-                                <div class="col-6">
-                                    <button class="btn btn-c btn-outline-danger cancel">
-                                        X
-                                    </button>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            <!-- Order List - END -->
-            <!-- Dashboard - END -->
-            <!-- Content - START -->
-            <div class="order col-7 d-none">
-                <div class="row">
-                    <div class="col-12 table-container text-center d-flex justify-content-center">
-                        <!-- Pills -->
-                        <table class="table pills">
-                            <tbody>
-                                <tr>
-                                    <td><button class="btn btn-custom btn-active" onclick="filterItems('all')" id="all">ALL</button></td>
-                                    <td><button class="btn btn-custom" onclick="filterItems('special')" id="special">SPECIAL</button></td>
-                                    <td><button class="btn btn-custom" onclick="filterItems('main')" id="main">MAIN</button></td>
-                                    <td><button class="btn btn-custom" onclick="filterItems('beverages')" id="beverages">BEVERAGES</button></td>
-                                </tr>
-                                <tr>
-                                    <td><button class="btn btn-custom" onclick="filterItems('small-orders')" id="small-orders">SMALL ORDERS</button></td>
-                                    <td><button class="btn btn-custom" onclick="filterItems('appetizers')" id="appetizers">APPETIZERS</button></td>
-                                    <td><button class="btn btn-custom" onclick="filterItems('sides')" id="sides">SIDES</button></td>
-                                    <td><button class="btn btn-custom" onclick="filterItems('desserts')" id="desserts">DESSERTS</button></td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-                    <div class="col-12 table-container text-center">
-                        <table class="table items">
-                            <tbody>
-                                <tr id="append-1">
-                                    <!-- Add more cells as needed -->
-                                </tr>
-                                <tr id="append-2">
-                                    <!-- Add more cells as needed -->
-                                </tr>
-                                <!-- Add more rows as needed -->
-                            </tbody>
-                        </table>
-                    </div>
-                </div>
-            </div>
-            <!-- Content - END -->
-            <!-- Order List - START -->
             <div class="orderlist-container col-3 text-center">
                 <div class="order-list">
                     <div class="row">
                         <!-- Customer ID -->
                         <div class="col-12">
                             <div class="customer-id m-2 pt-3 p-2">
-                                <h6><b>Customer ID - 0000000013</b></h6>
+                                <h6><b>Customer ID - 0</b></h6>
                             </div>
                             <!-- List -->
                         </div>
+                    </div>
+                    <div class="row" style="height: 600px;">
                         <!-- Order Items -->
-                        <div class="order-items col-10 offset-1 p-3">
+                        <div class="order-items col-10 offset-1 p-3 text-center" id="checklist-items" style="max-height: 450px; height: 450px;">
                             <!-- Headers -->
                             <div class="row mb-2">
-                                <div class="col-2 list-item p-0"><b>Qty</b></div>
-                                <div class="col-6 list-item p-0"><b>Item</b></div>
-                                <div class="col-2 list-item p-0"><b>Total</b></div>
-                                <div class="col-2 list-item p-0"><b>Act</b></div>
+                                <div class="col-6 list-item p-0"><b class="h6">Dishname</b></div>
+                                <div class="col-6 list-item p-0"><b class="h6">Actions</b></div>
                             </div>
                             <!-- Contents -->
-                            
-                        </div>
-                        <div class="col-12 pt-3">
-                            <div class="row">
-                                <div class="col-12">
-                                    <h6><b>Order Total</b></h6>
-                                </div>
-                                <div class="col-12">
-                                    <h6 id="order-total">0</h6>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="col-12 mt-1">
-                            <button class="btn btn-c btn-outline-success" onclick="submit()">
-                                <img src="images/check.svg" alt="Check" height="100%" width="100%">
-                            </button>
                         </div>
                     </div>
                 </div>
